@@ -17,9 +17,9 @@ int main(int argc, char** argv){
 	wordTrain wt;
 
 	if(argc != 6){
-		cout << "Usage : A-croak text lexicon ngram hidden_dimension learning_rate" << endl;
+		cout << "Usage : A-Croak text lexicon ngram hidden_dimension learning_rate" << endl;
 		cout << "System would access to previous models (i.e. model.org) first, or it would randomly build a model if no model is in the same directory" << endl;
-		cout << "Clipping Method has been used for avoiding gradient explosion" << endl;
+		cout << "Clipping Method has been used for avoiding gradient explosion" << endl << endl;
 		cout << "Return value: " << endl;
 		cout << "0 is OK" << endl;
 		cout << "1 is error" << endl;
