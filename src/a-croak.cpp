@@ -5,7 +5,7 @@
 #include <string.h>
 #include <map>
 #include <math.h>
-#include "strTokenize.cpp"
+#include <strTokenize.cpp>
 
 using namespace std;
 

@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 #include <string.h>
-#include "a-croak.cpp"
+#include <a-croak.cpp>
 
 using namespace std;
 
