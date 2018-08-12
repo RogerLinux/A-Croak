@@ -9,11 +9,6 @@
 
 using namespace std;
 
-/*float abs(float x){
-	if(x < 0)return -x;
-	else return x;
-			}*/
-
 float max(float x, float y){
 	if(x > y)return x;
 	else return y;

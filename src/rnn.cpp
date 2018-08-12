@@ -97,12 +97,9 @@ class wordTrain{
 
 	//Update weights in V
 
-	for(int i=0;i<y.size();i++){
-		for(int j=0;j<hidden_size;j++){
-			//V[j][i] -= LS * h[j] * y[i] * (1 - y[i]) * (y[i] - Y[i]);
+	for(int i=0;i<y.size();i++)
+		for(int j=0;j<hidden_size;j++)
 			 V[j][i] -= LS * h[j] * (y[i] - Y[i]);
-					} 
-				}
 
 	//Update weights in W
 
@@ -110,10 +107,9 @@ class wordTrain{
 
 		for(int j=0;j<hidden_size;j++){ //hidden layer
 			EH = 0;
-			for(int k=0;k<lexicon_size;k++){ // y layer
-				//EH += (y[k] - Y[k]) * y[k] * (1 - y[k]) * V_tmp[j][k];
+			for(int k=0;k<lexicon_size;k++) // y layer
 				EH += (y[k] - Y[k]) * V_tmp[j][k];
-						}
+
 			W[i][j] -= LS*EH * target_vec[i];
 					}
 	return;
