@@ -9,7 +9,6 @@
 
 using namespace std;
 
-//void trainModel(FILE* fp, int n_gram, char** lexicon, map<string, int> lexicon_map, vector< vector<float> >& W, vector< vector<float> >& V, int hidden_size, float learning_speed)
 int main(int argc, char** argv){
 
 	sentenceProcess sp;
@@ -17,9 +16,14 @@ int main(int argc, char** argv){
 	wordTrain wt;
 
 	if(argc != 6){
-		cout << "Usage : A-Croak text lexicon ngram hidden_dimension learning_rate" << endl;
+		cout << "Usage : A-Croak text lexicon N-gram hidden_dimension learning_rate" << endl;
 		cout << "System would access to previous models (i.e. model.org) first, or it would randomly build a model if no model is in the same directory" << endl;
-		cout << "Clipping Method has been used for avoiding gradient explosion" << endl << endl;
+		cout << "text: corpora to be trained" << endl;
+		cout << "lexicon: words to be trained" << endl;
+		cout << "N-gram: how many adjacent words to be considered" << endl;
+		cout << "hidden_dimension: the dim of hidden layer" << endl;
+		cout << "learning_rate: just learning rate" << endl;
+		cout << endl << "Clipping Method has been used for avoiding gradient explosion" << endl << endl;
 		cout << "Return value: " << endl;
 		cout << "0 is OK" << endl;
 		cout << "1 is error" << endl;

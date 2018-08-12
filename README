@@ -1,5 +1,0 @@
-A-Croak is an app that trains corpora into vectors, the vectors can help us know how close the two words are.
-This app is inspired by Tomas Mikolov's work, WordVec and based on his theory.
-
-To build, you do not need to run make, you just run INSTALL instead.
-INSTALL would produce an app named A-Croak
