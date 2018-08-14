@@ -6,6 +6,7 @@
 #include <map>
 #include <math.h>
 #include <strTokenize.cpp>
+#include <clip.cpp>
 
 using namespace std;
 
@@ -200,53 +201,6 @@ public:
 
 class wordTrain{
 
-  void GradientClip(vector< vector<float> >& M, float th){
-	float max = 0;
-
-	for(int i=0;i<M.size();i++)
-		for(int j=0;j<M[i].size();j++){
-			if(M[i][j] > th)M[i][j] = th;
-			else if(M[i][j] < -th)M[i][j] = -th;
-							}
-	return;
-
-	th *= M.size() * M[0].size();
-
-	for(int i=0;i<M.size();i++)
-		for(int j=0;j<M[i].size();j++)max += M[i][j] * M[i][j];
-
-	max = sqrt(max);
-
-	if(th < max)
-		for(int i=0;i<M.size();i++)
-                	for(int j=0;j<M[i].size();j++)
-                        	M[i][j] *= float(th/max);
-
-	return;
-				}
-
-  void GradientClip(vector< vector<float> >& M, float th, int target_no){
-        float max = 0;
-
-	for(int i=0;i<M[target_no].size();i++){
-		if(M[target_no][i] > th)M[target_no][i] = th;
-		else if(M[target_no][i] < -th)M[target_no][i] = -th;
-					}
-
-	return;
-
-	th *= M[target_no].size();
-
-        for(int i=0;i<M[target_no].size();i++)max = M[target_no][i] * M[target_no][i];
-
-	max = sqrt(max);
-
-        if(th < max)
-              for(int i=0;i<M[target_no].size();i++)
-                       M[target_no][i] *= float(th/max);
-
-        return;
-                                }
 public: 
 	//sigmoid function
   vector<float> activateFunc(vector<float> u){
@@ -287,11 +241,9 @@ public:
 
 	if(n==0)return; //Don't do anything if there is no context word
 
-	//target_vec = sp.word_to_vec(sent[target_no], lexicon_map);
 	h.resize(hidden_size);
 	//forward propagation
 	for(int i=0;i<hidden_size;i++)h[i] = W[lexicon_map[sent[target_no]]][i];
-	//h = M.multiply(target_vec, W); //hidden layer
 	u = M.multiply(h, V); //output before being activated
 	y = activateFunc(u); //output after being activated
 
@@ -306,7 +258,6 @@ public:
 	for(int i=0;i<y.size();i++){
 		for(int j=0;j<hidden_size;j++){
 			V[j][i] -= LS * h[j] * max(y[i] - y[i] * y[i], 0.000001) * (y[i] - Y[i]);
-			//V[j][i] -= cos(u[i]) * LS * h[j] * (y[i] - Y[i]);
 					} 
 				}
 
@@ -318,9 +269,7 @@ public:
 			EH = 0;
 			for(int k=0;k<lexicon_size;k++){ // y layer
 				EH += (y[k] - Y[k]) * max(y[k] * (1 - y[k]), 0.000001) * V_tmp[j][k];
-				//EH += (y[k] - Y[k]) * V_tmp[j][k];
 						}
-			//W[i][j] -= LS * EH * target_vec[i];
 			W[i][j] -= LS * EH;
 					}
 
@@ -342,7 +291,6 @@ public:
 	if(!p)return false;
 
 	//count words in the sentence
-        //while(fscanf(fp, "%s", w)!=EOF)sent_len++;
 	sent_len = strCount(p);
 
         sent = new char*[sent_len];
@@ -350,7 +298,6 @@ public:
         n = 0;
 
 	//store sentence in an array
-        //while(fscanf(fp, "%s", w)!=EOF)strcpy(sent[n++], w);
 	for(int i = 0; i < sent_len; i++){
 		s = strTokenize(&p);
 		for(int j = 0; j < s.size(); j++)sent[i][j] = s[j];
