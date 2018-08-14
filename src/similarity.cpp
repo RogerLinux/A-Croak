@@ -12,7 +12,7 @@ int main(int argc, char** argv){
 	FILE* fp_weight = fopen(argv[1], "r");
 	FILE* fp_lexicon = fopen(argv[2], "r");
 	int n, m;//n (row) is word vector dimension, m (col) is hidden layer dimension
-	float tmp;
+	float tmp, dist;
 	char w[64], filename[128];
 
 	vector<float> target_vec;
@@ -71,8 +71,14 @@ int main(int argc, char** argv){
 	vector<float> u = M.multiply(h, V);
 	vector<float> y = wt.activateFunc(u);
 
-	//for(int i=0;i<y.size();i++)fprintf(fp, "%f %d %s\n", y[i], i, lexicon[i]);
-	for(int i = 0; i < y.size(); i++)num_list.push_back(y[i]);
+	dist = 0;
+
+	for(int i = 0; i < y.size(); i++)dist += y[i] * y[i];
+	dist = sqrt(dist);
+
+	//Normalize the vector
+	for(int i = 0; i < y.size(); i++)num_list.push_back(y[i]/dist);
+
 	for(int i = 0; i < y.size(); i++)str_list.push_back(lexicon[i]);
 
 	pairSort(str_list.begin(), str_list.end(), num_list.begin(), num_list.end());
