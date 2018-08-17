@@ -7,7 +7,7 @@
 #include <math.h>
 #include <clip.cpp>
 #include <strTokenize.cpp>
-#include <clip.cpp>
+#include <preProcess.cpp>
 
 using namespace std;
 
@@ -242,17 +242,15 @@ public:
 
 	if(n==0)return; //Don't do anything if there is no context word
 
-<<<<<<< HEAD
 	h.resize(hidden_size);
 	//forward propagation
 	for(int i=0;i<hidden_size;i++)h[i] = W[lexicon_map[sent[target_no]]][i];
-=======
+
 	//determine the dim of hidden layer
 	h.resize(hidden_size);
 	//forward propagation
 	for(int i=0;i<hidden_size;i++)h[i] = W[lexicon_map[sent[target_no]]][i];
 
->>>>>>> 5b1a44bc4e5c02795d2e05e18d62a16ebbdf5c0d
 	u = M.multiply(h, V); //output before being activated
 	y = activateFunc(u); //output after being activated
 
@@ -297,29 +295,33 @@ public:
 	vector< vector<float> > M_tmp;
 
 	if(!p)return false;
+	p = str;
 
+	printf(": %s\n", p);
+
+	//pre-process begins
+	removeSymbol(p);
+	capitalToLowercase(p);
+	removeSandEd(p);
+	
 	//count words in the sentence
 	sent_len = strCount(p);
 
         sent = new char*[sent_len];
-        for(int i=0;i<sent_len;i++)sent[i] = new char[64];
+        for(int i = 0;i < sent_len; i++)sent[i] = new char[64];
         n = 0;
 
-<<<<<<< HEAD
-	//store sentence in an array
-=======
 	//store sentences in an array
->>>>>>> 5b1a44bc4e5c02795d2e05e18d62a16ebbdf5c0d
 	for(int i = 0; i < sent_len; i++){
 		//retrieve the words in the sentence
 		s = strTokenize(&p);
 		for(int j = 0; j < s.size(); j++)sent[i][j] = s[j];
 				}
 
-	//show sentences
-	cout << ": ";
-        for(int i=0;i<sent_len;i++)printf("%s ", sent[i]);
-        cout << endl;
+	//Show the sentence
+	//cout << " : ";
+        //for(int i = 0;i < sent_len; i++)printf("%s ", sent[i]);
+        //cout << endl;
 
 	Matrix M;
 
