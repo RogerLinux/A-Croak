@@ -15,7 +15,7 @@ bool omitSymbol(char c){
 			}
 
 bool removeSymbol(char* sent){
-	if(!sent)false; //No input
+	if(!sent)return false; //No input
 	char* ptr = sent;
 
 	while(*ptr != '\0'){
