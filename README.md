@@ -5,6 +5,6 @@ To build, you do not need to run make, you just run Build.sh instead.
 It would produce an app named A-Croak
 
 After running Build.sh, we can begin to train text and find the similarities of each pair of words.
-We just run the sample ...
+We just run the script below ...
 
 ./running_example.sh

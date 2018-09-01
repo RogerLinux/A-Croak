@@ -318,13 +318,6 @@ public:
 		for(int j = 0; j < s.size(); j++)sent[i][j] = s[j];
 				}
 
-	//Show the sentence
-	//cout << " : ";
-        //for(int i = 0;i < sent_len; i++)printf("%s ", sent[i]);
-        //cout << endl;
-
-	Matrix M;
-
 	//start back propagation
 	for(int i=0;i<sent_len;i++){
 		if(lexicon_map.find(sent[i]) != lexicon_map.end())GradientClip(W, 1, lexicon_map[sent[i]]);
