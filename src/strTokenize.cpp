@@ -1,8 +1,6 @@
-#include <iostream>
-#include <string>
-
 using namespace std;
 
+//return a word in the row
 string strTokenize(char** p){
 	if(p == NULL || *p == NULL || **p == '\0')return "";
 	string str;
@@ -16,9 +14,12 @@ string strTokenize(char** p){
 	return str;
 		}
 
-int strCount(char* p){
+//Count words in each sentence
+int strCount(char* ptr){
 	int cnt = 0;
-	if(!p)return 0;
+	if(!ptr)return 0;
+
+	char* p = ptr;
 
 	while(*p == ' ')p++;
 

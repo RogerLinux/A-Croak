@@ -1,9 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <map>
-#include <string.h>
-#include <a-croak.cpp>
-#include <sortTool.cpp>
+#include <header.h>
 
 using namespace std;
 
@@ -69,7 +64,7 @@ int main(int argc, char** argv){
 
 	vector<float> h = M.multiply(target_vec, W);
 	vector<float> u = M.multiply(h, V);
-	vector<float> y = wt.activateFunc(u);
+	vector<float> y = activateFunc(u);
 
 	dist = 0;
 

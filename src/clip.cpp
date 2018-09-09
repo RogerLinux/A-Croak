@@ -1,9 +1,3 @@
-#include <stdlib.h>
-#include <iostream>
-#include <vector>
-#include <string.h>
-#include <math.h>
-
 using namespace std;
 
   void GradientClip(vector< vector<float> >& M, float th){

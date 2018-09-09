@@ -1,11 +1,6 @@
-#include <iostream>
-#include <string>
-#include <omit_table.h>
-//#include <strTokenize.cpp>
-
 using namespace std;
 
-#define omit_table_size 4
+#define omit_table_size 8
 
 bool omitSymbol(char c){
 	for(int n = 0; n < omit_table_size; n++)

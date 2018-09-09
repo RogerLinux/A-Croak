@@ -1,4 +1,4 @@
-char omit_table[7] = {
+char omit_table[8] = {
 '(',
 ')',
 ',',
@@ -6,4 +6,5 @@ char omit_table[7] = {
 '"',
 '[',
 ']',
+'.'
 };
