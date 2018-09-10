@@ -1,5 +1,7 @@
 using namespace std;
 
+#define MAX_WORD_TO_BE_SAMPLED 10000
+
 float max(float x, float y){
 	if(x > y)return x;
 	else return y;
@@ -56,6 +58,7 @@ public:
 
 		FILE* fp_w = fopen(filename, "w");
 		string str;
+		char* p;
 		vector<string> str_list;
 		vector<int> cnt_list;
 		map<string, int> str_cnt;
@@ -64,12 +67,20 @@ public:
 		rewind(fp);
 
 		n = 0;
-		while(fscanf(fp, "%s", w) != EOF){
+		while(fscanf(fp, "%s", w) != EOF && n < MAX_WORD_TO_BE_SAMPLED){ //Don't save too many rods to prevent from system collapse
+
+			capitalToLowercase(w); //All char should be lowercase
+			removeSymbol(w); //Replace ommited symbols with blank 
+			removeSandEd(w);
+			removeChar(w, ' '); //Remove blank
+
 			str = charToString(w);
 			str_cnt[str]++;
+
+			n++;
 					}
 
-		for(it = str_cnt.begin(), n = 0; it != str_cnt.end() && n < 100; it++, n++){
+		for(it = str_cnt.begin(); it != str_cnt.end(); it++, n++){
 			str_list.push_back(it->first);
 			cnt_list.push_back(it->second);
 					}
@@ -81,7 +92,8 @@ public:
 
 		for(it1 = str_list.end() - 1, it2 = cnt_list.end() - 1; it1 != str_list.begin() && it2 != cnt_list.begin(); it1--, it2--)
 			fprintf(fp_w, "%d %s\n", *it2, stringToChar(*it1));
-		fprintf(fp_w, "%d %s\n", *(cnt_list.begin()), stringToChar(*(str_list.begin())));
+		fprintf(fp_w, "%d %s\n", *(cnt_list.begin()), stringToChar(*it1));
+
 		fclose(fp_w);
 		return filename;
 					}

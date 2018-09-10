@@ -1,6 +1,4 @@
-using namespace std;
-
-//sigmoid function
+//Sigmoid function
 vector<float> activateFunc(vector<float> u){
 	vector<float> y;
 
@@ -11,6 +9,7 @@ vector<float> activateFunc(vector<float> u){
 	return y;
 				}
 
+//Function for hidden layers
 vector<float> activateFuncHidden(vector<float> u){
 	vector<float> y;
 
