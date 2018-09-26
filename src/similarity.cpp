@@ -63,8 +63,10 @@ int main(int argc, char** argv){
 	target_vec = sp.word_to_vec(w, lexicon_map);
 
 	vector<float> h = M.multiply(target_vec, W);
+	h = tanH(h);
+
 	vector<float> u = M.multiply(h, V);
-	vector<float> y = activateFunc(u);
+	vector<float> y = sigmoid(u);
 
 	dist = 0;
 

@@ -37,13 +37,9 @@ int main(int argc, char** argv){
 
 	//build lexicon if no lexicon in the directory
 	fp_lex = fopen(argv[2], "r");
-	if(!fp_lex)sp.lexicon_creator(fp, argv[2]);
+	//if(!fp_lex)sp.lexicon_creator(fp, argv[2]);
 	if(!fp_lex){
 		cout << "No lexicon found" << endl;
-		cout << "A lexicon built for you" << endl;
-		cout << "It's just a sample, build lexicon if needed" << endl;
-		cout << "If A-Croak doesn't run, remove blank rows in lexicon" << endl;
-
 		return 1;
 				}
 

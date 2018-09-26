@@ -8,3 +8,5 @@ After running Build.sh, we can begin to train text and find the similarities of 
 We just run the script below ...
 
 ./running_example.sh
+
+P.S. Users should build their own lexicons before training words, check "lexicon" file to get supported format.

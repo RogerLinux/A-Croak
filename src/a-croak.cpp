@@ -80,7 +80,7 @@ public:
 			n++;
 					}
 
-		for(it = str_cnt.begin(); it != str_cnt.end(); it++, n++){
+		for(it = str_cnt.begin(); it != str_cnt.end(); it++){
 			str_list.push_back(it->first);
 			cnt_list.push_back(it->second);
 					}
@@ -103,7 +103,7 @@ public:
 		map<string, int> lexicon_map;
 
 		n = 0;
-		while(fscanf(fp, "%d %s", &m, w)!=EOF)lexicon_map[w] = n++;
+		while(fscanf(fp, "%s %d", w, &m)!=EOF)lexicon_map[w] = n++;
 
 		return lexicon_map;
 					}
@@ -112,14 +112,14 @@ public:
 		char** lexicon;
 		int num = 0, no;
 
-		while(fscanf(fp, "%d %s", &no, w) != EOF)num++;
+		while(fscanf(fp, "%s %d", w, &no) != EOF)num++;
 
 		lexicon = new char* [num];
 		for(n = 0;n < num; n++)lexicon[n] = new char[64];
 
 		n = 0;
 		rewind(fp);
-		while(fscanf(fp, "%d %s", &no, w) != EOF)strcpy(lexicon[n++], w);
+		while(fscanf(fp, "%s %d", w, &no) != EOF)strcpy(lexicon[n++], w);
 
 		*lexicon_size = num;
 
@@ -238,8 +238,6 @@ public:
 
 class wordTrain{
 
-public: 
-
 int backPropagation(int target_no, int n_gram, char** sent, int sent_size, char** lexicon, map<string, int> lexicon_map, vector< vector<float> >& W, vector< vector<float> >& V, int hidden_size, float LS){
 
 
@@ -250,7 +248,7 @@ int backPropagation(int target_no, int n_gram, char** sent, int sent_size, char*
 	sentenceProcess sp;
 	
 	int n, lexicon_size = lexicon_map.size();
-	float EH, sum;
+	float EI, sum;
 	char** ngram = new char* [n_gram * 2];
 	vector<float> target_vec, h, u, y, Y;
 	vector< vector<float> > V_tmp = V;
@@ -272,14 +270,10 @@ int backPropagation(int target_no, int n_gram, char** sent, int sent_size, char*
 	//forward propagation
 	for(int i = 0;i < hidden_size; i++)h[i] = W[lexicon_map[sent[target_no]]][i];
 
-	//determine the dim of hidden layer
-	h.resize(hidden_size);
-	//forward propagation
-	for(int i = 0;i < hidden_size; i++)h[i] = W[lexicon_map[sent[target_no]]][i];
-	h = activateFuncHidden(h);
+	h = tanH(h);
 
 	u = M.multiply(h, V); //output before being activated
-	y = activateFunc(u); //output after being activated
+	y = sigmoid(u); //output after being activated
 
 	//set context words as 1, otherwise 0
 
@@ -296,14 +290,14 @@ int backPropagation(int target_no, int n_gram, char** sent, int sent_size, char*
 				}
 
 	//Update weights in W
-	int i = lexicon_map[sent[target_no]];
+	int i = lexicon_map[sent[target_no]]; //Only ith row should change
 
 		for(int j = 0;j < hidden_size; j++){ //hidden layer
-			EH = 0;
+			EI = 0;
 			for(int k = 0;k < lexicon_size; k++){ // y layer
-				EH += (y[k] - Y[k]) * max(y[k] * (1 - y[k]), 0.000001) * V_tmp[j][k];
+				EI += (y[k] - Y[k]) * max(1 - h[j] * h[j], 0.000001) * V_tmp[j][k];
 						}
-			W[i][j] -= LS * EH;
+			W[i][j] -= LS * EI;
 					}
 
 	for(int i = 0;i < 2 * n_gram; i++)delete[] ngram[i];
@@ -348,8 +342,8 @@ public:
 
 	//start back propagation
 	for(int i = 0;i < sent_len; i++){
-		if(lexicon_map.find(sent[i]) != lexicon_map.end())GradientClip(W, 1, lexicon_map[sent[i]]);
-		GradientClip(V, 1);
+		if(lexicon_map.find(sent[i]) != lexicon_map.end())GradientClip(W, 10, lexicon_map[sent[i]]);
+		GradientClip(V, 10);
         	if(backPropagation(i, n_gram, sent, sent_len, lexicon, lexicon_map, W, V, hidden_size, LS) == 1)oov++;
 					}
 

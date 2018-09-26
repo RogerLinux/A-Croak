@@ -1,5 +1,5 @@
 //Sigmoid function
-vector<float> activateFunc(vector<float> u){
+vector<float> sigmoid(vector<float> u){
 	vector<float> y;
 
 	y.resize(u.size());
@@ -10,7 +10,19 @@ vector<float> activateFunc(vector<float> u){
 				}
 
 //Function for hidden layers
-vector<float> activateFuncHidden(vector<float> u){
+float sigmoid(float u){
+	float val = (exp(u) - exp(-u))/(exp(u) + exp(-u));
+
+	return val;
+				}
+
+float tanH(float u){
+	float val = (exp(u) - exp(-u))/(exp(u) + exp(-u));
+
+	return val;
+				}
+
+vector<float> tanH(vector<float> u){
 	vector<float> y;
 
 	y.resize(u.size());
@@ -19,4 +31,3 @@ vector<float> activateFuncHidden(vector<float> u){
 
 	return y;
 				}
-
