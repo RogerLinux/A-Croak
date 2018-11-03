@@ -247,7 +247,7 @@ int backPropagation(int target_no, int n_gram, char** sent, int sent_size, char*
 	Matrix M;
 	sentenceProcess sp;
 	
-	int n, lexicon_size = lexicon_map.size();
+	int n, C = lexicon_map[sent[target_no]] + 1, lexicon_size = lexicon_map.size(); //C for word number that starts with 1 instead of zero
 	float EI, sum;
 	char** ngram = new char* [n_gram * 2];
 	vector<float> target_vec, h, u, y, Y;
@@ -284,20 +284,19 @@ int backPropagation(int target_no, int n_gram, char** sent, int sent_size, char*
 	//Update weights in V
 
 	for(int i = 0;i < y.size(); i++){
-		for(int j = 0;j < hidden_size; j++){
-			V[j][i] -= LS * h[j] * max(y[i] - y[i] * y[i], 0.000001) * (y[i] - Y[i]);
+		for(int j = 0; j < hidden_size; j++){
+			V[j][i] -= LS * h[j] * (y[i] - y[i] * y[i]) * (y[i] - Y[i]) / float(C);
 					} 
 				}
 
 	//Update weights in W
-	int i = lexicon_map[sent[target_no]]; //Only ith row should change
 
 		for(int j = 0;j < hidden_size; j++){ //hidden layer
 			EI = 0;
 			for(int k = 0;k < lexicon_size; k++){ // y layer
-				EI += (y[k] - Y[k]) * max(1 - h[j] * h[j], 0.000001) * V_tmp[j][k];
+				EI += (y[k] - Y[k]) * (1 - h[j] * h[j]) * V_tmp[j][k];
 						}
-			W[i][j] -= LS * EI;
+			W[C - 1][j] -= LS * EI;
 					}
 
 	for(int i = 0;i < 2 * n_gram; i++)delete[] ngram[i];
@@ -342,8 +341,8 @@ public:
 
 	//start back propagation
 	for(int i = 0;i < sent_len; i++){
-		if(lexicon_map.find(sent[i]) != lexicon_map.end())GradientClip(W, 10, lexicon_map[sent[i]]);
-		GradientClip(V, 10);
+		if(lexicon_map.find(sent[i]) != lexicon_map.end())GradientClip(W, 1, lexicon_map[sent[i]]);
+		GradientClip(V, 1);
         	if(backPropagation(i, n_gram, sent, sent_len, lexicon, lexicon_map, W, V, hidden_size, LS) == 1)oov++;
 					}
 
