@@ -7,7 +7,7 @@
 #Target word: love
 
 #Train model
-./A-Croak text lexicon 3 16 0.5
+./A-Croak text lexicon 3 16 0.001
 
 #Find similarity of word "love"
 ./similarity model lexicon << eof
