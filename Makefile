@@ -3,7 +3,7 @@ CFLAG = -O -Wall
 SRC = ./src
 INCLUDE = ./include
 
-DIR = ./bin
+DIR = .
 
 ##Training executable file
 AC = A-Croak
@@ -21,4 +21,4 @@ $(TARGET1): $(SRC)/$(AC).cpp
 $(TARGET2): $(SRC)/$(SL).cpp
 	$(CC) $(CFLAG) -I$(INCLUDE) -I$(SRC) $^ -o $@
 clean:
-	rm -f $(DIR)/*
+	rm -f $(DIR)/$(AC) $(DIR)/$(SL)
