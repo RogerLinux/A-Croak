@@ -12,4 +12,4 @@
 #include <clip.cpp>
 #include <strTokenize.cpp>
 #include <preProcess.cpp>
-#include <a-croak.cpp>
+#include <a-croak-func.cpp>
